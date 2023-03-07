@@ -17,7 +17,7 @@ def termSearch(mboxfilepath, terms):
         mboxfile = mailbox.mbox(mboxfilename)
         for i, message in enumerate(mboxfile):
             flag = 0
-            # '''is_multipart() return true if the message is a string an gets content of the message.
+            # '''is_multipart() return true if the message is a multipart email an gets content of the message.
             # Else the message is converted to string'''
             if message.is_multipart():
                 messagecontent = ''.join(part.get_payload(decode=True) for part in message.get_payload())
@@ -46,6 +46,7 @@ def termSearch(mboxfilepath, terms):
                     print(m)
     return messages
 
+'''Prints the Email Addresses of a person where first name and last name belong to that person.'''
 def emailAddress(mboxfilepath, firstname, lastname):
     name = []
     name.append(firstname)
@@ -60,8 +61,6 @@ def emailAddress(mboxfilepath, firstname, lastname):
             flag = 0
             from_address = message['X-From']
             for l in name:
-                '''print(i)
-                print(from_address)'''
                 if from_address is not None and type(from_address) == type(s):
                     if not l in from_address.lower():
                         flag = 1
@@ -75,10 +74,13 @@ def emailAddress(mboxfilepath, firstname, lastname):
                 count += 1
     print("Results found: " + str(count))
 
+'''To obtain emails exchanges by two people.'''
 def emailsExchanged(mboxFilePath, email1, email2):
     messages = []
     count = 0
+    #Iterate over the mboxFilePath to obtain all mbox files
     for mboxFileName in mboxFilePath:
+        #Converts each mailbox to mbox format
         mbox = mailbox.mbox(mboxFileName)
         for i, message in enumerate(mbox):
             if (message['from'] == email1 and message['to'] == email2):
@@ -111,7 +113,7 @@ def modifyString(inp):
 folders = []
 path = []
 # traverse root directory, and list directories as dirs and files as files
-for root, dirs, files in os.walk("C:\\Users\\dasus\\enron1"):
+for root, dirs, files in os.walk("C:\\Users\\dasus\\enron"):
     # print(files)
     if files:
         for file in files:
